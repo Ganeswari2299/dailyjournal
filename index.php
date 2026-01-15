@@ -147,24 +147,6 @@ include "koneksi.php";
             </div>
         </div>
     </section>
-    <!--hero begin-->
-    <section id="hero" class="text-center p-5 bg-danger-subtle text-sm-start">
-        <div class="container">
-            <div class="d-sm-flex flex-sm-row-reverse align-items-center">
-                <img src="img/banner.jpg" class="img-fluid" width="300">
-                <div>
-                    <h1 class="fw-bold display-4">
-                        The Joy and Benefits of Being Active
-                    </h1>
-                    <h4 class="lead display-6">
-                        Menemukan manfaat olahraga untuk tubuh dan semangat belajar
-                    </h4>
-                    <span id="tanggal"></span>
-                    <span id="jam"></span>
-                </div>
-            </div>
-        </div>
-    </section>
     <!--hero end-->
     <!--article begin-->
     <section id="article" class="text-center p-5">
@@ -204,39 +186,39 @@ include "koneksi.php";
     <!--article end-->
     <!--gallery begin-->
     <section id="gallery" class="text-center p-5 bg-danger-subtle">
-        <div class="container">
-            <h1 class="fw-bold display-4 pb-3">gallery</h1>
-            <div id="carouselExample" class="carousel slide">
-                <div class="carousel-inner">
-                    <div class="carousel-item active">
-                        <img src="img/gallery1.jpg" class="d-block w-100" alt="Swim Refreshing">
+    <div class="container">
+        <h1 class="fw-bold display-4 pb-3">Gallery</h1>
+
+        <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+
+                <?php
+                $queryGallery = "SELECT * FROM gallery ORDER BY id DESC";
+                $resultGallery = $conn->query($queryGallery);
+                $active = "active";
+
+                while ($gallery = $resultGallery->fetch_assoc()) {
+                ?>
+                    <div class="carousel-item <?= $active; ?>">
+                        <img src="img/<?= $gallery['gambar']; ?>" class="d-block w-100">
                     </div>
-                    <div class="carousel-item">
-                        <img src="img/gallery2.jpg" class="d-block w-100" alt="Badminton">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gallery3.jpg" class="d-block w-100" alt="Atlet Renang">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gallery4.jpg" class="d-block w-100" alt="Fun Run">
-                    </div>
-                    <div class="carousel-item">
-                        <img src="img/gallery5.jpg" class="d-block w-100" alt="College Student">
-                    </div>
-                </div>
-                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample"
-                    data-bs-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Previous</span>
-                </button>
-                <button class="carousel-control-next" type="button" data-bs-target="#carouselExample"
-                    data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="visually-hidden">Next</span>
-                </button>
+                <?php
+                    $active = ""; // supaya cuma item pertama yang active
+                }
+                ?>
+
             </div>
+
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+            </button>
+
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+            </button>
         </div>
-    </section>
+    </div>
+</section>
     <!--gallery end-->
     <!--schedule begin-->
     <section id="schedule" class="text-center p-5">

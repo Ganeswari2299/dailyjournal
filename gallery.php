@@ -3,12 +3,12 @@
         <div class="col-md-6">
              <!-- Button trigger modal -->
             <button type="button" class="btn btn-secondary mb-2" data-bs-toggle="modal" data-bs-target="#modalTambah">
-                + Tambah Article
+                + Tambah Gallery
             </button>
         </div>
         <div class="col-md-6">
             <div class="input-group">
-                <input type="text" id="search" class="form-control" placeholder="Ketikkan minimal 3 karakter pencarian..">
+                <input type="text" id="search" class="form-control" placeholder="Cari Gallery...">
                 <span class="input-group-text">
                     <i class="bi bi-search"></i>
                 </span>
@@ -22,8 +22,7 @@
                 <thead class="table-dark">
                     <tr>
                         <th>No</th>
-                        <th class="w-25">Judul</th>
-                        <th class="w-50">Isi</th>
+                        <th class="w-50">Deskripsi</th>
                         <th class="w-50">Gambar</th>
                         <th class="w-25">Aksi</th>
                     </tr>
@@ -32,7 +31,7 @@
                     <script>
     function loadData(keyword = '') {
         $.ajax({
-            url: "article_search.php",
+            url: "gallery_search.php",
             type: "POST",
             data: {
                 keyword: keyword
@@ -64,18 +63,14 @@
             <div class="modal-dialog">
                  <div class="modal-content">
                     <div class="modal-header">
-                        <h1 class="modal-title fs-5" id="modalTambahLabel">Tambah Article</h1>
+                        <h1 class="modal-title fs-5" id="modalTambahLabel">Tambah Gallery</h1>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <form method="post" action="" enctype="multipart/form-data">
                     <div class="modal-body">
                         <div class="mb-3">
-							<label for="judul" class="form-label">Judul</label>
-                            <input type="text" class="form-control" name="judul" placeholder="Tuliskan Judul Artikel" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="isi">Isi</label>
-                            <textarea class="form-control" placeholder="Tuliskan Isi Artikel" name="isi" required></textarea>
+							<label for="judul" class="form-label">Deskripsi</label>
+                            <input type="text" class="form-control" name="judul" placeholder="Tuliskan Deskripsi" required>
                         </div>
                         <div class="mb-3">
                             <label for="gambar" class="form-label">Gambar</label>
@@ -98,8 +93,7 @@ include "upload_foto.php";
 
 //jika tombol simpan diklik
 if (isset($_POST['simpan'])) {
-    $judul = $_POST['judul'];
-    $isi = $_POST['isi'];
+    $deskrpsi = $_POST['deskripsi'];
     $tanggal = date("Y-m-d H:i:s");
     $username = $_SESSION['username'];
     $gambar = '';
@@ -138,23 +132,22 @@ if (isset($_POST['simpan'])) {
             unlink("img/" . $_POST['gambar_lama']);
         }
 
-        $stmt = $conn->prepare("UPDATE article 
+        $stmt = $conn->prepare("UPDATE gallery 
                                 SET 
-                                judul =?,
-                                isi =?,
+                                deskripsi =?,
                                 gambar = ?,
                                 tanggal = ?,
                                 username = ?
                                 WHERE id = ?");
 
-        $stmt->bind_param("sssssi", $judul, $isi, $gambar, $tanggal, $username, $id);
+        $stmt->bind_param("sssssi", $deskripsi, $gambar, $tanggal, $username, $id);
         $simpan = $stmt->execute();
     } else {
 		    //jika tidak ada id, lakukan insert data baru
-        $stmt = $conn->prepare("INSERT INTO article (judul,isi,gambar,tanggal,username)
+        $stmt = $conn->prepare("INSERT INTO gallery (deskripsi,gambar,tanggal,username)
                                 VALUES (?,?,?,?,?)");
 
-        $stmt->bind_param("sssss", $judul, $isi, $gambar, $tanggal, $username);
+        $stmt->bind_param("sssss", $deskripsi, $gambar, $tanggal, $username);
         $simpan = $stmt->execute();
     }
 
@@ -184,7 +177,7 @@ if (isset($_POST['hapus'])) {
         unlink("img/" . $gambar);
     }
 
-    $stmt = $conn->prepare("DELETE FROM article WHERE id =?");
+    $stmt = $conn->prepare("DELETE FROM gallery WHERE id =?");
 
     $stmt->bind_param("i", $id);
     $hapus = $stmt->execute();
@@ -192,12 +185,12 @@ if (isset($_POST['hapus'])) {
     if ($hapus) {
         echo "<script>
             alert('Hapus data sukses');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=gallery';
         </script>";
     } else {
         echo "<script>
             alert('Hapus data gagal');
-            document.location='admin.php?page=article';
+            document.location='admin.php?page=gallery';
         </script>";
     }
 

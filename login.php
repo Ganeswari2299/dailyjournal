@@ -26,7 +26,7 @@ if (isset($_SESSION['username'])) {
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css"
     />
-    <link rel="icon" href="img/logo2.png
+    <link rel="icon" href="img/logo1.png
     " />
   </head>
   <body class="bg-danger-subtle">
